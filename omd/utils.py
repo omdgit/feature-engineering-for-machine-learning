@@ -51,3 +51,29 @@ class CustomDiscretizer:
     def fit_transform(self, X, y):
         self.fit(X, y)
         return self.transform(X)
+    
+
+
+class OptBinningTransformer(BaseEstimator, TransformerMixin):
+    # Class constructor
+    def __init__(self, name, dtype="numerical", solver="cp"):
+        # Initialize the attributes
+        self.name = name
+        self.dtype = dtype
+        self.solver = solver
+        # Create an optbinning object
+        self.optb = OptimalBinning(name=self.name, dtype=self.dtype, solver=self.solver)
+
+    # Method to fit the optbinning object to the data
+    def fit(self, X, y=None):
+        # Fit the optbinning object
+        self.optb.fit(X, y)
+        # Return self
+        return self
+
+    # Method to transform the data
+    def transform(self, X, y=None):
+        # Transform the data using the optbinning object
+        X_transformed = self.optb.transform(X)
+        # Return the transformed data
+        return X_transformed
